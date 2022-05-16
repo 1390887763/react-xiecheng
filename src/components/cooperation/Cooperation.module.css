@@ -1,0 +1,8 @@
+.images {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.cooperation-image {
+    width: 20%;
+}
