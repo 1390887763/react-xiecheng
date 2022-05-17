@@ -1,12 +1,41 @@
-import React from "react"
+import React, { useState } from "react"
 import styles from "./Header.module.css"
 import logo from '../../assets/logo.svg';
 import { Button, Dropdown, Input, Layout, Menu, Typography } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
+import store from "../../redux/store"
 
 export const Header: React.FC = () => {
     const navigate = useNavigate()
+    const storeState = store.getState()
+    const [lauguageObj, setLauguageObj] = useState(storeState)
+
+    // 订阅store数据，当store数据变化则执行，实现store->UI
+    store.subscribe(()=> {
+        const storetate = store.getState()
+        setLauguageObj(storetate)
+    })
+
+    const menuClickHandler = (e) => {
+        if(e.key === "new") {
+            console.log(123);
+            
+            const action = {
+                type: "add_language",
+                payload: {code: "new_lang", name: "新语言"}
+            }
+            store.dispatch(action)
+        } else {
+            const action = {
+                type: "action_language",
+                payload: e.key,
+            };
+            // 派发一个action 用户->store
+            store.dispatch(action)
+        }
+        
+    }
     return (
         <div className={styles['app-header']}>
             {/*top-header*/}
@@ -17,12 +46,16 @@ export const Header: React.FC = () => {
                     style={{marginLeft: 15}}
                     overlay={
                         <Menu>
-                        <Menu.Item>中文</Menu.Item>
-                        <Menu.Item>English</Menu.Item>
+                            {lauguageObj.languageList.map(l=>{
+                                return <Menu.Item onClick={menuClickHandler} key={l.code}>{l.name}</Menu.Item>
+                            })}
+                            <Menu.Item onClick={menuClickHandler} key={"new"}>添加新语言</Menu.Item>
                         </Menu>
                     }
                     icon={<GlobalOutlined />}
-                    >语言</Dropdown.Button>
+                    >
+                        {storeState.language === "zh" ? "中文" : "English"}
+                    </Dropdown.Button>
                     <Button.Group className={styles["button-gruop"]}>
                     <Button onClick={()=>navigate('/register')}>注册</Button>
                     <Button onClick={()=>navigate('/signIn')}>登录</Button>
