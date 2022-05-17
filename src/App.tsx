@@ -1,14 +1,20 @@
 import React from 'react';
 import styles from './App.module.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { HomePage } from "./pages";
+import { HomePage, SignInPage, RegisterPage, DetailPage } from "./pages";
 
 function App() {
   return (
     <div className={styles.App}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<HomePage />}></Route>
+          {/* 传给 element：history，location，match */}
+          <Route path='/' element={<HomePage />} />
+          <Route path='/signIn' element={<SignInPage />} />
+          <Route path='register' element={<RegisterPage />} />
+          {/* 动态路由使用 */}
+          <Route path='detail/:id' element={<DetailPage />} />
+          <Route path='*' element={<>404 我叼你妈的</>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -3,37 +3,41 @@ import styles from "./Header.module.css"
 import logo from '../../assets/logo.svg';
 import { Button, Dropdown, Input, Layout, Menu, Typography } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
+import { useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
+    const navigate = useNavigate()
     return (
         <div className={styles['app-header']}>
             {/*top-header*/}
             <div className={styles['top-header']}>
-            <div className={styles['inner']}>
-                <Typography.Text>让旅游更幸福</Typography.Text>
-                <Dropdown.Button
-                style={{marginLeft: 15}}
-                overlay={
-                    <Menu>
-                    <Menu.Item>中文</Menu.Item>
-                    <Menu.Item>English</Menu.Item>
-                    </Menu>
-                }
-                icon={<GlobalOutlined />}
-                >语言</Dropdown.Button>
-                <Button.Group className={styles["button-gruop"]}>
-                <Button>注册</Button>
-                <Button>登录</Button>
-                </Button.Group>
-            </div>  
+                <div className={styles['inner']}>
+                    <Typography.Text>让旅游更幸福</Typography.Text>
+                    <Dropdown.Button
+                    style={{marginLeft: 15}}
+                    overlay={
+                        <Menu>
+                        <Menu.Item>中文</Menu.Item>
+                        <Menu.Item>English</Menu.Item>
+                        </Menu>
+                    }
+                    icon={<GlobalOutlined />}
+                    >语言</Dropdown.Button>
+                    <Button.Group className={styles["button-gruop"]}>
+                    <Button onClick={()=>navigate('/register')}>注册</Button>
+                    <Button onClick={()=>navigate('/signIn')}>登录</Button>
+                    </Button.Group>
+                </div>  
             </div>
             <Layout.Header className={styles['main-header']}>
-            <img src={logo} alt='' className={styles['App-logo']}/>
-            <Typography.Title level={3} className={styles['title']}>React 旅游网</Typography.Title>
-            <Input.Search 
-                placeholder='请输入旅游目的地、或者其他你想输入的东西'
-                className={styles['search-input']}
-            />
+                <span onClick={()=>navigate('/')}>
+                    <img src={logo} alt='' className={styles['App-logo']}/>
+                    <Typography.Title level={3} className={styles['title']}>React 旅游网</Typography.Title>
+                    <Input.Search 
+                        placeholder='请输入旅游目的地、或者其他你想输入的东西'
+                        className={styles['search-input']}
+                    />
+                </span>
             </Layout.Header>
             <Menu mode={"horizontal"} className={styles['main-menu']}>
                 <Menu.Item key={1}>旅游首页</Menu.Item>
