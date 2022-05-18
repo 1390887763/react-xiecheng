@@ -1,38 +1,32 @@
-import React, { useState } from "react"
+import React from "react"
 import styles from "./Header.module.css"
 import logo from '../../assets/logo.svg';
 import { Button, Dropdown, Input, Layout, Menu, Typography } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
-import store from "../../redux/store"
-import { useTranslation } from "react-i18next";
 
 // 将组件完全从 store 中剥离，从自定义hook中获取store的数据
 import { useSelector } from "../../redux/hooks"; 
+import { useDispatch } from "react-redux";
+import { addLanguageActionCreator, changeLanguageActionCreator } from "../../redux/language/languageActions"
+
+// 引入国际化
+import { useTranslation } from "react-i18next";
 
 export const Header: React.FC = () => {
-    const navigate = useNavigate()
-    const storeState = store.getState()
-    const [lauguageObj, setLauguageObj] = useState(storeState)
-    // 使用i18n定义的数据
-    const { t } = useTranslation()
-    const language = useSelector((state) => state.language)
+    const navigate = useNavigate() // 使用路由hook 实现页面跳转
+    const language = useSelector((state) => state.language) // 使用store中的数据，并且监听数据的变化
     const languageList = useSelector((state) => state.languageList)
+    const dispatch = useDispatch() // 派发action 改变store中的数据
+    const { t } = useTranslation() // 国际化 i18next 切换语言
 
-    // 订阅store数据，当store数据变化则执行，实现store->UI
-    store.subscribe(()=> {
-        const storetate = store.getState()
-        setLauguageObj(storetate)
-    })
-
-    const menuClickHandler = (e) => {
+    // 派发任务
+    const menuClickHandler = (e:any) => {
         if(e.key === "new") {
-            const action = addLanguageActionCreator("新语言", "new_lang")
-            store.dispatch(action)
+            dispatch(addLanguageActionCreator("新语言", "new_lang"))
         } else {
-            const action = changeLanguageActionCreator(e.key)
             // 派发一个action 用户->store
-            store.dispatch(action)
+            dispatch(changeLanguageActionCreator(e.key))
         }
     }
     return (
@@ -45,7 +39,7 @@ export const Header: React.FC = () => {
                     style={{marginLeft: 15}}
                     overlay={
                         <Menu>
-                            {lauguageObj.languageList.map(l=>{
+                            {languageList.map(l=>{
                                 return <Menu.Item onClick={menuClickHandler} key={l.code}>{l.name}</Menu.Item>
                             })}
                             <Menu.Item onClick={menuClickHandler} key={"new"}>{t("header.add_new_language")}</Menu.Item>
@@ -53,9 +47,11 @@ export const Header: React.FC = () => {
                     }
                     icon={<GlobalOutlined />}
                     >
-                        {storeState.language === "zh" ? "中文" : "English"}
+                        {language === "zh" ? "中文" : "English"}
                     </Dropdown.Button>
                     <Button.Group className={styles["button-gruop"]}>
+                    {/* t函数 获取语言json文件中对应的数据 */}
+                    {/* navigate函数 跳转到对应路由 */}
                     <Button onClick={()=>navigate('/register')}>{t("header.register")}</Button>
                     <Button onClick={()=>navigate('/signIn')}>{t("header.signin")}</Button>
                     </Button.Group>
