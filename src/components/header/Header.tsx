@@ -6,13 +6,18 @@ import { GlobalOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
 import store from "../../redux/store"
 import { useTranslation } from "react-i18next";
-import { addLanguageActionCreator, changeLanguageActionCreator  } from "../../redux/language/languageActions"
+
+// 将组件完全从 store 中剥离，从自定义hook中获取store的数据
+import { useSelector } from "../../redux/hooks"; 
 
 export const Header: React.FC = () => {
     const navigate = useNavigate()
     const storeState = store.getState()
     const [lauguageObj, setLauguageObj] = useState(storeState)
+    // 使用i18n定义的数据
     const { t } = useTranslation()
+    const language = useSelector((state) => state.language)
+    const languageList = useSelector((state) => state.languageList)
 
     // 订阅store数据，当store数据变化则执行，实现store->UI
     store.subscribe(()=> {
