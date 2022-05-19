@@ -7,12 +7,12 @@ interface FetchRecommendProductsStartAction {
 }
 
 interface FetchRecommendProductsSuccessAction {
-    type: typeof FETCH_RECOMMEND_PRODUCTS_START,
+    type: typeof FETCH_RECOMMEND_PRODUCTS_SUCCESS,
     payload: any
 }
 
 interface FetchRecommendProductsFailAction {
-    type: typeof FETCH_RECOMMEND_PRODUCTS_START
+    type: typeof FETCH_RECOMMEND_PRODUCTS_FAIL
     payload: any
 }
 
@@ -25,5 +25,18 @@ export type RecommendProductAction =
 export const fetchRecommendProductsStartActionCreator = (): FetchRecommendProductsStartAction => {
     return {
         type: FETCH_RECOMMEND_PRODUCTS_START
+    }
+}
+// data 为 API 成功返回的数据
+export const fetchRecommendProductsSuccessActionCreator = (data): FetchRecommendProductsSuccessAction => {
+    return {
+        type: FETCH_RECOMMEND_PRODUCTS_SUCCESS,
+        payload: data
+    }
+}
+export const fetchRecommendProductsFailActionCreator = (error): FetchRecommendProductsFailAction => {
+    return {
+        type: FETCH_RECOMMEND_PRODUCTS_FAIL,
+        payload: error
     }
 }
