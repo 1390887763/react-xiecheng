@@ -15,8 +15,8 @@ import { useTranslation } from "react-i18next";
 
 export const Header: React.FC = () => {
     const navigate = useNavigate() // 使用路由hook 实现页面跳转
-    const language = useSelector((state) => state.language) // 使用store中的数据，并且监听数据的变化
-    const languageList = useSelector((state) => state.languageList)
+    const language = useSelector((state) => state.language.language) // 使用store中的数据，并且监听数据的变化
+    const languageList = useSelector((state) => state.language.languageList)
     const dispatch = useDispatch() // 派发action 改变store中的数据
     const { t } = useTranslation() // 国际化 i18next 切换语言
 

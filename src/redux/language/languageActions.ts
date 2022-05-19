@@ -3,7 +3,7 @@ export const ADD_LANGUAGE = "add_language";
 
 interface ChangeLanguageAction {
     type: typeof CHANGE_LANGUAGE,
-    payload: "zh" | "en"
+    payload: "zh" | "en" // 返回的数据类型
 }
 
 interface AddLanguageAction {
