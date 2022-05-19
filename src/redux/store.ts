@@ -1,7 +1,10 @@
-import { combineReducers } from 'redux'
-import { configureStore } from '@reduxjs/toolkit';
+// configureStore:配置store，combineReducers：捆绑reducer，applyMiddleware：应用中间件
+import { createStore } from "redux"
+import { configureStore, combineReducers, applyMiddleware } from '@reduxjs/toolkit';
 import languageReducer from "./language/languageReducer"
 import recommendProductsReducer from './recommendProducts/recommendProductsReducer';
+import thunk from 'redux-thunk';
+import { actionLog } from "./middlewares/actionLog"
 
 // 捆绑全部的reducer
 const rootReducer = combineReducers({
@@ -9,9 +12,8 @@ const rootReducer = combineReducers({
     recommendProducts: recommendProductsReducer
 })
 
-const store = configureStore({
-    reducer: rootReducer,
-});
+// applyMiddlewares的作用：它是 Redux 的原生方法，作用是将所有中间件组成一个数组，依次执行
+const store = createStore(rootReducer, applyMiddleware(thunk, actionLog));
 
 // ReturnType 内置高级类型，获取函数返回值类型
 export type RootState = ReturnType<typeof store.getState>

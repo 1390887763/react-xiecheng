@@ -9,11 +9,7 @@ import { withTranslation, WithTranslation } from 'react-i18next'
 import axios from "axios"
 import { connect } from "react-redux"
 import { RootState } from "../../redux/store"
-import {
-  fetchRecommendProductsFailActionCreator,
-  fetchRecommendProductsStartActionCreator,
-  fetchRecommendProductsSuccessActionCreator
-} from "../../redux/recommendProducts/recommendProductsAction"
+import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsAction"
 
 
 const mapStateToProps = (state: RootState) => {
@@ -24,17 +20,11 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
+// dispatch 的映射关系函数
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchStart: () => {
-      // dispatch(一个由creator创建的action)
-      dispatch(fetchRecommendProductsStartActionCreator)
-    },
-    fetchSuccess: (data) => {
-      dispatch(fetchRecommendProductsSuccessActionCreator(data))
-    },
-    fetchFail: (error) => {
-      dispatch(fetchRecommendProductsFailActionCreator(error))
+    giveMeData: () => {
+      dispatch(giveMeDataActionCreator())
     }
   }
 }
@@ -44,15 +34,8 @@ type PropsType = WithTranslation &
   ReturnType<typeof mapDispatchToProps>;
 
 class HomePageComponent extends React.Component<PropsType> {
-
-  async componentDidMount() {
-    this.props.fetchStart()
-    try {
-      const { data } = await axios.get('http://123.56.149.216:8080/api/productCollections')
-      this.props.fetchSuccess(data)
-    } catch (error:any) {
-      this.props.fetchFail(error.message)
-    }
+  componentDidMount() {
+    this.props.giveMeData();
   }
   render() {
     // t 为 translation
