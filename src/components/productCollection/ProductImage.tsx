@@ -14,7 +14,7 @@ export const ProductImage: React.FC<PropsType> = ({id, size, imageSrc, price, ti
     return (
         <Link
             to={{
-                pathname: `/detail/:${id}`
+                pathname: `/detail/${id}`
             }}
         >
             {size === 'large' ? (
