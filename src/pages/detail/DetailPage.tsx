@@ -13,9 +13,6 @@ const { RangePicker } = DatePicker;
 
 export const DetailPage: React.FC = () => {
   const { id } = useParams();
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [product, setProduct] = useState<any>(null);
-  // const [error, setError] = useState<string | null>(null);
   const loading = useSelector(state => state.productDetail.loading)
   const error = useSelector(state => state.productDetail.error)
   const product = useSelector(state => state.productDetail.data)
