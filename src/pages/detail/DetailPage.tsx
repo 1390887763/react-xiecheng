@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Spin, Row, Col, Divider, Typography, Anchor, Menu } from "antd";
 import styles from "./DetailPage.module.css";
 import { Header, Footer, ProductIntro, ProductComments } from "../../components";
 import { DatePicker } from "antd";
 import { commentMockData } from "./mockup";
+import { getProductDetail } from "../../redux/productDetail/slice";
+import { useAppDispatch, useSelector } from "../../redux/hooks";
+
 
 const { RangePicker } = DatePicker;
 
 export const DetailPage: React.FC = () => {
   const { id } = useParams();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [product, setProduct] = useState<any>(null);
+  // const [error, setError] = useState<string | null>(null);
+  const loading = useSelector(state => state.productDetail.loading)
+  const error = useSelector(state => state.productDetail.error)
+  const product = useSelector(state => state.productDetail.data)
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(
-          `http://123.56.149.216:8080/api/touristRoutes/${id}`
-        );
-        setProduct(data);
-        setLoading(false);
-      } catch (error:any) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-    fetchData();
+    if (id) {
+      dispatch(getProductDetail(id))
+    }
   }, []);
   if (loading) {
     return (
