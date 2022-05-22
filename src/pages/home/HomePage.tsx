@@ -10,6 +10,7 @@ import axios from "axios"
 import { connect } from "react-redux"
 import { RootState } from "../../redux/store"
 import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsAction"
+import { MainLayout } from "../../layout/mainLayout"
 
 
 const mapStateToProps = (state: RootState) => {
@@ -57,9 +58,7 @@ class HomePageComponent extends React.Component<PropsType> {
     }
     return (
         <>
-          <Header />
-          {/* 页面内容 */}
-          <div className={styles['page-content']}>
+          <MainLayout>
             <Row style={{marginTop: 20}}>
               <Col span={6}>
                 <SideMenu />
@@ -94,8 +93,7 @@ class HomePageComponent extends React.Component<PropsType> {
               </ProductCollection>
             </Row>
             <Cooperation />
-          </div>
-          <Footer />
+          </MainLayout>
         </>
     )
   }

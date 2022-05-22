@@ -5,6 +5,7 @@ import { useParams, useLocation } from "react-router-dom"
 import { Spin } from "antd"
 import { searchProduct } from "../../redux/search/slice"
 import { useSelector, useAppDispatch } from "../../redux/hooks"
+import { MainLayout } from "../../layout/mainLayout"
 
 
 export const SearchPage: React.FC = () => {
@@ -51,20 +52,18 @@ export const SearchPage: React.FC = () => {
     }
     return (
         <>
-            <Header />
-            <div className={styles["page-content"]}>
+            <MainLayout>
                 <div className={styles["product-list-container"]}>
                     <FilterArea />
+                    </div>
+                    <div className={styles["product-list-container"]}>
+                        <ProductList 
+                            data={productList}
+                            paging={pagination}
+                            onPageChange={onPageChange}
+                        />
                 </div>
-                <div className={styles["product-list-container"]}>
-                    <ProductList 
-                        data={productList}
-                        paging={pagination}
-                        onPageChange={onPageChange}
-                    />
-                </div>
-            </div>
-            <Footer />
+            </MainLayout>
         </>
     )
 }
