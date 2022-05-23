@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./Header.module.css"
 import logo from '../../assets/logo.svg';
 import { Button, Dropdown, Input, Layout, Menu, Typography } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
+import jwt_decode, { JwtPayload as DefaultJwtPayload } from "jwt-decode"
 
 // 将组件完全从 store 中剥离，从自定义hook中获取store的数据
 import { useSelector } from "../../redux/hooks"; 
@@ -12,6 +13,11 @@ import { addLanguageActionCreator, changeLanguageActionCreator } from "../../red
 
 // 引入国际化
 import { useTranslation } from "react-i18next";
+import { userSlice } from "../../redux/user/slice";
+
+interface JwtPayload extends DefaultJwtPayload {
+    username: string,
+}
 
 export const Header: React.FC = () => {
     const navigate = useNavigate() // 使用路由hook 实现页面跳转
@@ -19,6 +25,16 @@ export const Header: React.FC = () => {
     const languageList = useSelector((state) => state.language.languageList)
     const dispatch = useDispatch() // 派发action 改变store中的数据
     const { t } = useTranslation() // 国际化 i18next 切换语言
+
+    const jwt = useSelector(s => s.user.token)
+    const [username, setUsername] = useState("")
+
+    useEffect(() => {
+        if (jwt) {
+            const token = jwt_decode<JwtPayload>(jwt)
+            setUsername(token.username)
+        }
+    }, [jwt])
 
     // 派发任务
     const menuClickHandler = (e:any) => {
@@ -29,6 +45,12 @@ export const Header: React.FC = () => {
             dispatch(changeLanguageActionCreator(e.key))
         }
     }
+
+    const onLogout = () => {
+        dispatch(userSlice.actions.logOut())
+        navigate("/")
+    }
+
     return (
         <div className={styles['app-header']}>
             {/*top-header*/}
@@ -49,12 +71,22 @@ export const Header: React.FC = () => {
                     >
                         {language === "zh" ? "中文" : "English"}
                     </Dropdown.Button>
-                    <Button.Group className={styles["button-gruop"]}>
-                    {/* t函数 获取语言json文件中对应的数据 */}
-                    {/* navigate函数 跳转到对应路由 */}
-                    <Button onClick={()=>navigate('/register')}>{t("header.register")}</Button>
-                    <Button onClick={()=>navigate('/signIn')}>{t("header.signin")}</Button>
-                    </Button.Group>
+                    {jwt ? 
+                        <Button.Group className={styles["button-gruop"]}>
+                            <span>{t("header.welcome")}
+                                <Typography.Text strong style={{padding: 5}}>{username}</Typography.Text>
+                            </span>
+                            <Button>{t("header.shoppingCart")}</Button>
+                            <Button onClick={onLogout}>{t("header.signOut")}</Button>
+                        </Button.Group>
+                        :
+                        <Button.Group className={styles["button-gruop"]}>
+                            {/* t函数 获取语言json文件中对应的数据 */}
+                            {/* navigate函数 跳转到对应路由 */}
+                            <Button onClick={()=>navigate('/register')}>{t("header.register")}</Button>
+                            <Button onClick={()=>navigate('/signIn')}>{t("header.signin")}</Button>
+                        </Button.Group>
+                    }
                 </div>  
             </div>
             <Layout.Header className={styles['main-header']}>

@@ -1,10 +1,32 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import styles from "./SignInForm.module.css"
-
+import { signIn } from "../../redux/user/slice"
+import { useAppDispatch, useSelector } from '../../redux/hooks';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const SingInForm = () => {
+
+  const loading = useSelector(s => s.user.loading)
+  const jwt = useSelector(s => s.user.token)
+  const error = useSelector(s => s.user.error)
+
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  // 监听 jwt，当其不为null，转到主页
+  useEffect(()=> {
+    if (jwt !== null) {
+      navigate("/");
+    }
+  }, [jwt])
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    dispatch(signIn({
+      email: values.username,
+      password: values.password,
+    }))
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -43,7 +65,8 @@ export const SingInForm = () => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        {/* ant form组件支持 loading，绑定我们的loadign数据即可 */}
+        <Button type="primary" htmlType="submit" loading={loading}>
           Submit
         </Button>
       </Form.Item>
