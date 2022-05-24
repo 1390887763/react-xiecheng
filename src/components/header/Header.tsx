@@ -21,13 +21,14 @@ interface JwtPayload extends DefaultJwtPayload {
 
 export const Header: React.FC = () => {
     const navigate = useNavigate() // 使用路由hook 实现页面跳转
-    const language = useSelector((state) => state.language.language) // 使用store中的数据，并且监听数据的变化
-    const languageList = useSelector((state) => state.language.languageList)
     const dispatch = useDispatch() // 派发action 改变store中的数据
     const { t } = useTranslation() // 国际化 i18next 切换语言
-
-    const jwt = useSelector(s => s.user.token)
     const [username, setUsername] = useState("")
+    const language = useSelector((state) => state.language.language) // 使用store中的数据，并且监听数据的变化
+    const languageList = useSelector((state) => state.language.languageList)
+    const jwt = useSelector(s => s.user.token)
+    const shoppingCartItems = useSelector(s => s.shoppingCart.items)
+    const shoppingCartLoading = useSelector(s => s.shoppingCart.loading)
 
     useEffect(() => {
         if (jwt) {
@@ -76,8 +77,15 @@ export const Header: React.FC = () => {
                             <span>{t("header.welcome")}
                                 <Typography.Text strong style={{padding: 5}}>{username}</Typography.Text>
                             </span>
-                            <Button>{t("header.shoppingCart")}</Button>
-                            <Button onClick={onLogout}>{t("header.signOut")}</Button>
+                            <Button 
+                                loading={shoppingCartLoading}
+                                onClick={()=>navigate('/shoppingCart')}
+                            >
+                                {t("header.shoppingCart")}({shoppingCartItems.length})
+                            </Button>
+                            <Button 
+                                onClick={onLogout}>{t("header.signOut")}
+                            </Button>
                         </Button.Group>
                         :
                         <Button.Group className={styles["button-gruop"]}>

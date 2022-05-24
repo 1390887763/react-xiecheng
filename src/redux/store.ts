@@ -8,6 +8,7 @@ import { actionLog } from "./middlewares/actionLog"
 import { productDetailState } from "../redux/productDetail/slice"
 import { searchSlice } from "../redux/search/slice"
 import { userSlice } from "../redux/user/slice"
+import { shoppingCartSlice } from "../redux/shoppingCart/slice"
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     productDetail: productDetailState.reducer,
     productSearch: searchSlice.reducer,
     user: userSlice.reducer,
+    shoppingCart: shoppingCartSlice.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -38,7 +40,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
     reducer: persistedReducer,
     middleware: ((getDefaultMiddleware) => 
-        getDefaultMiddleware().concat(actionLog)),
+        getDefaultMiddleware({serializableCheck: false}).concat(actionLog)),
     devTools: true,
 })
 

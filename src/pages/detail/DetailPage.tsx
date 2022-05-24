@@ -3,11 +3,13 @@ import { useParams } from "react-router-dom";
 import { Spin, Row, Col, Divider, Typography, Anchor, Menu } from "antd";
 import styles from "./DetailPage.module.css";
 import { Header, Footer, ProductIntro, ProductComments } from "../../components";
-import { DatePicker } from "antd";
+import { DatePicker, Space, Button } from "antd";
 import { commentMockData } from "./mockup";
 import { getProductDetail } from "../../redux/productDetail/slice";
 import { useAppDispatch, useSelector } from "../../redux/hooks";
 import { MainLayout } from "../../layout/mainLayout"
+import { ShoppingOutlined } from "@ant-design/icons";
+import { addShoppingCartItem } from "../../redux/shoppingCart/slice"
 
 
 const { RangePicker } = DatePicker;
@@ -19,6 +21,9 @@ export const DetailPage: React.FC = () => {
   const product = useSelector(state => state.productDetail.data)
 
   const dispatch = useAppDispatch()
+
+  const jwt = useSelector(s => s.user.token) as string
+  const shoppingCartLoading = useSelector(s => s.shoppingCart.loading)
 
   useEffect(() => {
     if (id) {
@@ -61,6 +66,18 @@ export const DetailPage: React.FC = () => {
               />
             </Col>
             <Col span={11}>
+              <Button
+                style={{marginTop: 50, marginBottom: 30, display: "block"}}
+                type="primary"
+                danger
+                loading={shoppingCartLoading}
+                onClick={()=> {
+                  dispatch(addShoppingCartItem({ jwt, touristRouteId: product.id }))
+                }}
+              >
+                <ShoppingOutlined />
+                放入购物车
+              </Button>
               <RangePicker open style={{ marginTop: 20 }} />
             </Col>
           </Row>
