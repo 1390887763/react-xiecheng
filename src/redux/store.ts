@@ -15,7 +15,7 @@ import storage from "redux-persist/lib/storage"
 const persistConfig = {
     key: "root", // 代表数据的根目录
     storage,  // 代表数据的保持方式，默认为 localStorage
-    whiteList: ["user"] // 白名单列表：保存user reducer中的数据
+    whitelist: ["user"] // 白名单列表：保存user reducer中的数据
 }
 
 // 捆绑全部的reducer
