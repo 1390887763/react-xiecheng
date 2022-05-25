@@ -1,0 +1,42 @@
+import React from "react";
+// import Cards from "react-credit-cards";
+// import "react-credit-cards/es/styles-compiled.css";
+import { Input } from "antd";
+import styles from "./PaymentForm.module.css";
+
+export class PaymentForm extends React.Component {
+  state = {
+    cvc: "",
+    expiry: "",
+    focus: "",
+    name: "",
+    number: "",
+  };
+
+  handleInputFocus = (e) => {
+    this.setState({ focus: e.target.name });
+  };
+
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    return (
+      <div id="PaymentForm" style={{marginTop: 50}}>
+        <div/>
+        <form className={styles["payment-form"]}>
+          <Input
+            type="tel"
+            name="number"
+            placeholder="Card Number"
+            onChange={this.handleInputChange}
+            onFocus={this.handleInputFocus}
+          />
+        </form>
+      </div>
+    );
+  }
+}

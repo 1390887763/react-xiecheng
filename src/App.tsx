@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './App.module.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage, ShoppingCartPage } from "./pages";
+import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage, ShoppingCartPage, PlaceOrder } from "./pages";
 import { Navigate } from "react-router-dom";
 import { useSelector, useAppDispatch } from "./redux/hooks";
 import { getShoppingCart } from "./redux/shoppingCart/slice"
@@ -58,6 +58,15 @@ function App() {
             element={
               <ProtectedRoute user={jwt}>
                 <ShoppingCartPage />
+              </ProtectedRoute>
+            }  
+          >
+          </Route>
+          <Route
+            path="/placeOrder"
+            element={
+              <ProtectedRoute user={jwt}>
+                <PlaceOrder />
               </ProtectedRoute>
             }  
           >
