@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Spin, Row, Col, Divider, Typography, Anchor, Menu } from "antd";
 import styles from "./DetailPage.module.css";
-import { Header, Footer, ProductIntro, ProductComments } from "../../components";
+import { ProductIntro, ProductComments } from "../../components";
 import { DatePicker, Space, Button } from "antd";
 import { commentMockData } from "./mockup";
 import { getProductDetail } from "../../redux/productDetail/slice";

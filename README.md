@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+### 项目结构
+# build
+运行 npm build 生成的打包文件
+# public
+静态资源
+# src-assets
+静态资源
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# src-components
+组件目录
+- carousel: 走马灯、checkOutCard：结账卡片、cooperation：合作企业、filter: 搜索页面筛选、footer：页脚、header：页头、paymentCard：支付页面卡片、paymentForm: 支付页面输入表单、productCollection: 主页产品列表、productComments: 产品评论、productIntro：产品介绍、productList：搜索页面产品列表、siderMenu: 菜单栏
 
-## Available Scripts
+# src-i18n
+国际化目录
 
-In the project directory, you can run:
+# src-layout
+两种页面的布局方式
+登录相关页面，无header和footer
+主页相关页面，有header和footer
 
-### `npm start`
+# src-pages
+detail 商品详情页面：ProductIntro, ProductComments
+home 主页：SideMenu, Carousel, ProductCollection, Cooperation
+placeOrder 订单页面：PaymentForm, CheckOutCard
+register 注册页面
+search 搜索页面：FilterArea, ProductList
+shoppingCart 购物车页面：ProductList, PaymentCard
+signIn 登录页面
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# src-redux
+language、recommentProducts（传统redux store）
+middlewares 自定义中间件
+order、productDetail、search、shoppingCart、user （RTK slice）
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# App.module.css 模块化css文件
+# App.tsx 配置 React-Router V6
+# index.tsx 项目入口文件
+# dockerfile 容器化生成文件

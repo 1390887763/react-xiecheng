@@ -1,12 +1,10 @@
 import React from "react"
-import styles from './HomePage.module.css'
-import {Header, Footer, SideMenu, Carousel, ProductCollection, Cooperation} from "../../components"
+import { SideMenu, Carousel, ProductCollection, Cooperation} from "../../components"
 import { Row, Col, Typography, Spin } from "antd"
 import sideimage1 from '../../assets/images/sider_2019_02-04.png'
 import sideimage3 from '../../assets/images/sider_2019_02-04-2.png'
 import sideimage2 from '../../assets/images/sider_2019_12-09.png'
 import { withTranslation, WithTranslation } from 'react-i18next'
-import axios from "axios"
 import { connect } from "react-redux"
 import { RootState } from "../../redux/store"
 import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsAction"
